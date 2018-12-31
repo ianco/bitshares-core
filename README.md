@@ -31,6 +31,18 @@ Build instructions and additional documentation are available in the
 
 We recommend building on Ubuntu 16.04 LTS (64-bit) 
 
+**Build BOOST**
+
+    wget -O boost_1_65_1.tar.gz https://sourceforge.net/projects/boost/files/boost/1.65.1/boost_1_65_1.tar.gz/download
+    tar xzvf boost_1_65_1.tar.gz
+    cd boost_1_65_1/
+    sudo apt-get update
+    sudo apt-get install build-essential g++ python-dev autotools-dev libicu-dev build-essential libbz2-dev libboost-all-dev
+    ./bootstrap.sh --prefix=target
+    ./b2
+    ./b2 install
+    export BOOST_ROOT=~/Projects/boost_1_65_1/target/
+
 **Build Dependencies**:
 
     sudo apt-get update
@@ -41,8 +53,9 @@ We recommend building on Ubuntu 16.04 LTS (64-bit)
     git clone https://github.com/bitshares/bitshares-core.git
     cd bitshares-core
     git checkout master # may substitute "master" with current release tag
+    git checkout 2.0.181221
     git submodule update --init --recursive
-    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .
+    cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBOOST_ROOT=$BOOST_ROOT .
     make
 
 **Upgrade Script** (prepend to the Build Script above if you built a prior release):
